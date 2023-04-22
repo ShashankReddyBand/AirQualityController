@@ -1,58 +1,85 @@
 package AirQualityController;
 
+import com.apple.laf.resources.aqua;
+
 import AirQualityController.util.List;
 
 public class Controller {
 
-	private AQIComponent aQIComponent;
+	private AQIComponent aQIComponent = new AQIComponent();
 
-	private TemperatureComponent temperatureComponent;
+	private TemperatureComponent temperatureComponent = new TemperatureComponent();
 
-	private HumidityComponent humidityComponent;
+	private HumidityComponent humidityComponent = new HumidityComponent();
 
-	private COComponent cOComponent;
+	private COComponent cOComponent = new COComponent();
 
-	private Alarm alarm;
+	private Alarm alarm = new Alarm();
 
-	private ACSwitch aCSwitch;
+	private ACSwitch ACSwitch = new ACSwitch();
 
-	private HumidifierSwitch humidifierSwitch;
+	private HumidifierSwitch humidifierSwitch = new HumidifierSwitch();
 
-	private AirPurifierSwitch airPurifierSwitch;
+	private AirPurifierSwitch airPurifierSwitch = new AirPurifierSwitch();
 
 	public boolean ACOnOff(int tempHiLow) {
-		return false;
+		if(tempHiLow > 0){
+			ACSwitch.switchOn();
+			return true;
+		}
+		else{
+			ACSwitch.switchOff();
+			return true;
+		}
 	}
 
 	public boolean HumidifierOnOff(int humidityHiLow) {
-		return false;
+		if(humidityHiLow > 0){
+			humidifierSwitch.switchOn();
+			return true;
+		}
+		else{
+			humidifierSwitch.switchOff();
+			return true;
+		}
 	}
 
 	public boolean AirFileterOnOff(int AQIHiLow) {
-		return false;
+		if(AQIHiLow > 0){
+			airPurifierSwitch.switchOn();
+			return true;
+		}
+		else{
+			airPurifierSwitch.switchOff();
+			return true;
+		}
 	}
 
 	public int checkTemp() {
-		return 0;
+		return temperatureComponent.getTempLevel();
 	}
 
 	public int checkHumidity() {
-		return 0;
+		return humidityComponent.getHumidityLevel();
 	}
 
 	public int checkAQI() {
-		return 0;
+		return aQIComponent.getAOILevel();
 	}
 
 	public int checkCOLevel() {
-		return 0;
+		return cOComponent.getCOLevel();
 	}
 
-	public boolean soundAlarm(boolean COLevel) {
-		return false;
+	public boolean soundAlarm(boolean COLevelHigh) {
+
+		alarm.SoundAlarm(COLevelHigh);
+		return true;
 	}
 
 	public static void main(String[] args) {
 		System.out.println("this is working!!!");
+
+
 	}
 }

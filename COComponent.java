@@ -6,8 +6,8 @@ public class COComponent {
 
 	private COSensor cOSensor;
 
-	public void getCOLevel() {
-
+	public int getCOLevel() {
+		return 0;
 	}
 
 }
