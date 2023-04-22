@@ -7,7 +7,11 @@ public class COComponent {
 	private COSensor cOSensor;
 
 	public int getCOLevel() {
-		return 0;
+		int level = 0;
+		if(cOSensor.getCOLevel() > targetCOLevel){
+			level = 1;
+		}
+		return level;
 	}
 
 }

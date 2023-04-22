@@ -4,14 +4,19 @@ public class AQIComponent {
 
 	private int TargetAQI = 100;
 
-	private AQISensor aQISensor;
+	private AQISensor aQISensor = new AQISensor();
 
 	public boolean SetAQI(int setAQI) {
-		return false;
+		TargetAQI = setAQI;
+		return true;
 	}
 
-	public boolean getAOILevel() {
-		return false;
+	public int getAOILevel() {
+		int level = 0;
+		if(aQISensor.getAQI() < TargetAQI){
+			level = 1;
+		}
+		return level;
 	}
 
 }
