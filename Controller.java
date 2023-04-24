@@ -1,9 +1,5 @@
 package AirQualityController;
 
-import com.apple.laf.resources.aqua;
-
-import AirQualityController.util.List;
-
 public class Controller {
 
 	private AQIComponent aQIComponent = new AQIComponent();
@@ -22,9 +18,9 @@ public class Controller {
 
 	private AirPurifierSwitch airPurifierSwitch = new AirPurifierSwitch();
 
-	public boolean ACOnOff(int tempHiLow) {
+	public boolean ACOnOff(int tempHiLow, int round) {
 		if(tempHiLow > 0){
-			ACSwitch.switchOn();
+			ACSwitch.switchOn(round+1);
 			return true;
 		}
 		else{
@@ -33,9 +29,9 @@ public class Controller {
 		}
 	}
 
-	public boolean HumidifierOnOff(int humidityHiLow) {
+	public boolean HumidifierOnOff(int humidityHiLow, int round) {
 		if(humidityHiLow > 0){
-			humidifierSwitch.switchOn();
+			humidifierSwitch.switchOn(round+1);
 			return true;
 		}
 		else{
@@ -44,9 +40,9 @@ public class Controller {
 		}
 	}
 
-	public boolean AirFileterOnOff(int AQIHiLow) {
-		if(AQIHiLow > 0){
-			airPurifierSwitch.switchOn();
+	public boolean AirFileterOnOff(int AQIHiLow, int round) {
+		if(AQIHiLow > 0 && airPurifierSwitch.getState() == false){
+			airPurifierSwitch.switchOn(round+1);
 			return true;
 		}
 		else{
@@ -55,20 +51,20 @@ public class Controller {
 		}
 	}
 
-	public int checkTemp() {
-		return temperatureComponent.getTempLevel();
+	public int checkTemp(String tempString) {
+		return temperatureComponent.getTempLevel(Double.parseDouble(tempString));
 	}
 
-	public int checkHumidity() {
-		return humidityComponent.getHumidityLevel();
+	public int checkHumidity(String humidString) {
+		return humidityComponent.getHumidityLevel(Double.parseDouble(humidString));
 	}
 
-	public int checkAQI() {
-		return aQIComponent.getAOILevel();
+	public int checkAQI(String aqiString) {
+		return aQIComponent.getAOILevel(Double.parseDouble(aqiString));
 	}
 
-	public int checkCOLevel() {
-		return cOComponent.getCOLevel();
+	public boolean checkCOLevel(String coString) {
+		return cOComponent.getCOLevel(Double.parseDouble(coString))==1;
 	}
 
 	public boolean soundAlarm(boolean COLevelHigh) {
@@ -77,9 +73,28 @@ public class Controller {
 		return true;
 	}
 
+
 	public static void main(String[] args) {
 		System.out.println("this is working!!!");
+		Controller controller = new Controller();
+		Readings readings = new Readings();
+		for (int i = 0; i < 15; i++) {
+			System.out.println("-----Round " + i + "-----");
 
+			// System.out.println(readings.getTempString(i+1));
 
+			int airOnOff = controller.checkAQI(readings.getAQIString(i+1));
+			int ACOnOff = controller.checkTemp(readings.getTempString(i+1));
+			int HumidifierOnOff = controller.checkHumidity(readings.gethumidString(i+1));
+			Boolean alarmOnOff = controller.checkCOLevel(readings.getCOString(i+1));
+
+			// controller.AirFileterOnOff(airOnOff);
+			controller.ACOnOff(ACOnOff, i+1);
+			controller.HumidifierOnOff(HumidifierOnOff, i+1);
+			// controller.soundAlarm(alarmOnOff);
+
+			System.out.println("-----Round " + i + "-----");
+		}
+		
 	}
 }

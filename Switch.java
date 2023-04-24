@@ -2,14 +2,14 @@ package AirQualityController;
 
 public class Switch {
 
-	private boolean State;
+	private boolean State = false;
 
-	public boolean switchOn() {
-		return false;
+	public Void switchOn() {
+		return Void;
 	}
 
-	public boolean switchOff() {
-		return false;
+	public Void switchOff() {
+		return Void;
 	}
 
 }
